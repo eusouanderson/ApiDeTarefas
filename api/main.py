@@ -34,6 +34,10 @@ async def get_current_user(token: str = Depends(auth_scheme)):
         raise HTTPException(status_code=401, detail="Unauthorized")
     return token
 
+@app.options("/token", response_model=str)
+async def login():
+    return f"{ADMIN_USERNAME}:{ADMIN_PASSWORD}"
+
 
 @app.post("/api/", response_model=Task)
 async def create_task(task: Task, user: str = Security(get_current_user)):

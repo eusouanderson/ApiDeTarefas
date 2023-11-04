@@ -8,4 +8,3 @@
 *.egg-info
 *.egg
 __pycache__
-api/secret.py
