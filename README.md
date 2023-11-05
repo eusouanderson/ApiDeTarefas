@@ -1,111 +1,65 @@
-# API de Tarefas
+# Documentação da API
 
-Uma API simples para criar, listar, buscar, atualizar e excluir tarefas. É necessária autenticação para acessar essas funcionalidades.
+## Descrição
+
+Esta documentação descreve uma aplicação web que permite gerenciar tarefas. A aplicação possui três principais funcionalidades:
+
+1. Listar tarefas existentes.
+2. Adicionar novas tarefas.
+3. Deletar tarefas existentes.
+
+A aplicação utiliza a autenticação por meio de um token Bearer para acessar os endpoints.
 
 ## Tecnologias Utilizadas
 
-- **FastAPI:** Framework web utilizado para criar a API.
-- **MongoDB:** Banco de dados NoSQL utilizado para armazenar as tarefas.
-- **Uvicorn:** Servidor ASGI utilizado para executar o aplicativo FastAPI.
+A aplicação foi desenvolvida usando as seguintes tecnologias:
 
+- **React:** Biblioteca JavaScript para construir interfaces de usuário.
+- **Axios:** Cliente HTTP para fazer requisições à API.
+- **Tailwind CSS:** Framework de CSS para estilização.
 
 ## Configuração
 
-Para usar esta API, você deve fornecer autenticação. Use o seguinte username e password para autenticação básica:
+Para executar a aplicação, é necessário configurar o URL da API e o token Bearer.
 
-- Username: `{{ADMIN_USERNAME}}`
-- Password: `{{ADMIN_PASSWORD}}`
+- URL da API: `http://localhost:8000`
+- Token Bearer: `eusouanderson:CQ5mE4c0ZtR07sBB`
 
-## Endpoints
+Certifique-se de substituir o URL da API e o token Bearer pelos valores reais da sua aplicação.
 
-### Autenticação
+## Componentes
 
-- **POST /token:** Rota para obter um token de autenticação. Você deve fornecer o username e password no corpo da solicitação.
+A aplicação é composta por três componentes principais:
 
-### Criar Tarefa
+### `GetTasks`
 
-- **POST /api/:** Rota para criar uma nova tarefa.
+O componente `GetTasks` é responsável por listar as tarefas existentes. Ele faz uma requisição GET para a API e exibe as tarefas retornadas.
 
-    Exemplo de solicitação:
-    ```json
-    {
-        "title": "Nova tarefa",
-        "description": "Nova descrição"
-    }
-    ```
+### `DeleteTasks`
 
-### Listar Tarefas
+O componente `DeleteTasks` será responsável por deletar as tarefas. No entanto, ele ainda não foi implementado no código fornecido.
 
-- **GET /api/:** Rota para obter todas as tarefas.
+### `PostTasks`
 
-### Obter Tarefa por ID
-
-- **GET /api/{task_id}:** Rota para obter uma tarefa pelo seu ID.
-
-    Exemplo:
-    ```
-    GET /api/123
-    ```
-
-### Atualizar Tarefa por ID
-
-- **PUT /api/{task_id}:** Rota para atualizar uma tarefa pelo seu ID.
-
-    Exemplo de solicitação:
-    ```json
-    {
-        "title": "Nova tarefa, depois",
-        "description": "Nova descrição"
-    }
-    ```
-
-### Deletar Tarefa por ID
-
-- **DELETE /api/{task_id}:** Rota para excluir uma tarefa pelo seu ID.
+O componente `PostTasks` permite adicionar novas tarefas. Ele inclui um formulário para inserir o título e a descrição da tarefa. Após a submissão do formulário, uma requisição POST é enviada à API para criar uma nova tarefa. As tarefas existentes são listadas abaixo do formulário.
 
 ## Exemplos de Uso
 
-Aqui estão alguns exemplos de como usar a API com `curl`:
+Aqui estão exemplos de como usar os componentes:
 
-1. Autenticar e obter um token:
-   ```bash
-   curl -X POST -d "username={{ADMIN_USERNAME}}" -d "password={{ADMIN_PASSWORD}}" http://localhost:8000/token
+### Listar Tarefas
 
+Para listar as tarefas existentes, você pode usar o componente `GetTasks`. Basta incluí-lo em seu aplicativo React para visualizar as tarefas.
 
-2. Criar uma tarefa:
+```jsx
+import { GetTasks } from "./GetTasks";
 
-    ```bash
+function App() {
+  return (
+    <div className="App">
+      <GetTasks />
+    </div>
+  );
+}
 
-    curl -X POST -H "Authorization: Bearer {TOKEN}" -d '{"title": "Nova tarefa", "description": "Nova descrição"}' http://localhost:8000/api/
-
-    
-3. Listar todas as tarefas
-
-      ```bash
-      curl -H "Authorization: Bearer {TOKEN}" http://localhost:8000/api/
-      
-4. Obter uma tarefa por ID:
-    
-    ```bash
-    curl -H "Authorization: Bearer {TOKEN}" http://localhost:8000/api/{task_id}
-
-5. Atualizar uma tarefa por ID:
-
-    ```bash
-    curl -X PUT -H "Authorization: Bearer {TOKEN}" -d '{"title": "Nova tarefa, depois", "description": "Nova descrição"}' http://localhost:8000/api/{task_id}
-
-## Executar a Api 
-
-Você pode executar o aplicativo usando Uvicorn. Use o seguinte comando para iniciar o servidor:
-
-    
-    uvicorn main:app --host 127.0.0.1 --port 8000
-    
-    
-Lembre-se de substituir {{ADMIN_USERNAME}} e {{ADMIN_PASSWORD}} pelos valores reais do seu aplicativo.
-
-    
-    Certifique-se de substituir `{{ADMIN_USERNAME}}` e `{{ADMIN_PASSWORD}}` pelos valores reais do seu aplicativo antes de adicionar esta documentação ao seu repositório GitHub. Isso ajudará os usuários a entender como usar sua API.
-
-
-
+export default App;

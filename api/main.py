@@ -1,11 +1,24 @@
 from fastapi import FastAPI, HTTPException, Depends, Security
+from fastapi.middleware.cors import CORSMiddleware
+
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 from pymongo import MongoClient
 from bson import ObjectId
 from api import secret
+import uvicorn
+
 
 app = FastAPI()
+
+# Configuração do CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Configuração da autenticação básica (usuário e senha)
 ADMIN_PASSWORD = secret.PASSWORD
@@ -33,6 +46,14 @@ async def get_current_user(token: str = Depends(auth_scheme)):
     if token != f"{ADMIN_USERNAME}:{ADMIN_PASSWORD}":
         raise HTTPException(status_code=401, detail="Unauthorized")
     return token
+
+
+@app.get("/")
+async def root():
+    with open("README.md", "r") as f:
+        readme_contents = f.read()
+    return {"message": readme_contents}
+
 
 @app.options("/token", response_model=str)
 async def login():
@@ -65,45 +86,29 @@ async def get_tasks(user: str = Security(get_current_user)):
 
 
 @app.get("/api/{task_id}", response_model=Task)
-async def get_task(task_id: str, user: str = Security(get_current_user)):
-    """
-    Rota para obter uma tarefa pelo seu ID
-    Exemplo: get /api/123
-    """
-    task = mongo_collection.find_one({"_id": ObjectId(task_id)})
+async def get_task(task_id: int, user: str = Security(get_current_user)):
+    task = mongo_collection.find_one({"id": task_id})
     if task:
-        task["id"] = task_id
         return task
     raise HTTPException(status_code=404, detail="Tarefa não encontrada")
 
-
 @app.put("/api/{task_id}", response_model=Task)
-async def update_task(task_id: str, task: Task, user: str = Security(get_current_user)):
-    """
-    Rota para atualizar uma tarefa pelo seu ID
-    Exemplo: put /api/123 --data '{"title": "Nova tarefa, depois", "description": "Nova descricão"}'
-    """
+async def update_task(task_id: int, task: Task, user: str = Security(get_current_user)):
     task_data = task.dict()
     updated_task = mongo_collection.find_one_and_update(
-        {"_id": ObjectId(task_id)},
+        {"id": task_id},
         {"$set": task_data},
         return_document=True
     )
     if updated_task:
-        updated_task["id"] = task_id
         return updated_task
     raise HTTPException(status_code=404, detail="Tarefa não encontrada")
 
 
 @app.delete("/api/{task_id}", response_model=Task)
-async def delete_task(task_id: str, user: str = Security(get_current_user)):
-    """
-    Rota para deletar uma tarefa pelo seu ID
-    Exemplo: delete /api/123
-    """
-    deleted_task = mongo_collection.find_one_and_delete({"_id": ObjectId(task_id)})
+async def delete_task(task_id: int, user: str = Security(get_current_user)):
+    deleted_task = mongo_collection.find_one_and_delete({"id": task_id})
     if deleted_task:
-        deleted_task["id"] = task_id
         return deleted_task
     raise HTTPException(status_code=404, detail="Tarefa não encontrada")
 
@@ -111,8 +116,7 @@ async def delete_task(task_id: str, user: str = Security(get_current_user)):
 def clearDB():
     mongo_collection.delete_many({})
     print("Banco de dados limpo!")
-
+#clearDB()
 
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)

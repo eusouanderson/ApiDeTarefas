@@ -20,6 +20,8 @@ RUN pyenv global 3.10.0
 
 # Install poetry
 RUN pip install poetry
+
+# Install pymongo for MongoDB
 RUN pip install --upgrade pymongo
 
 # Copy the Pyproject.toml and poetry.lock files to the container
