@@ -122,14 +122,14 @@ export function PostTasks() {
           {tarefas.map((tarefa) => (
             <div
               key={tarefa.id}
-              className="flex flex-row space-x-4 transform hover:scale-105 transition-transform"
+              className="flex flex-row space-x-4 border border-white bg-slate-700 p-4 mb-4 rounded-lg transform hover:scale-105 transition-transform"
             >
-              <li className="p-2 mb-4 bg-gray-800 rounded-lg">
+              <li className="p-2 mb-4 bg-gray-800 h-24 w-1/2 rounded-lg">
                 <h3 className="text-lg font-semibold">{tarefa.title}</h3>
                 <p className="text-gray-300 text-sm">{tarefa.description}</p>
                 <p className="text-gray-300 text-sm">ID: {tarefa.id}</p>
-                
               </li>
+              
               <button
                 onClick={() => handleDeleteTask(tarefa.id)}
                 className="bg-red-600 mb-4 text-white py-2 px-3 rounded-lg hover:bg-red-700 focus:outline-none focus:ring focus:border-red-300"
