@@ -5,9 +5,59 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f1f1f1; 
+  background: linear-gradient(90deg, #1f270d, #680888, #a7d7f7);
+  background-size: 600% 600%;
+  animation: gradientBackground 10s ease infinite;
+  color: #333;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Animação do gradiente de fundo */
+@keyframes gradientBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 25%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
+
+/* Estilize os links com cores vibrantes */
+a {
+  color: #ff6f61; /* Cor do link */
+  text-decoration: none; /* Remova sublinhado */
+  transition: color 0.3s; /* Efeito de transição da cor ao passar o mouse */
+}
+
+a:hover {
+  color: #c677e0; /* Cor do link ao passar o mouse */
+}
+
+/* Estilos para código fonte ou blocos de código */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  background-color: #f7f7f7; /* Cor de fundo do código */
+  padding: 0.5rem; /* Espaçamento interno */
+  border: 1px solid #ddd; /* Borda leve */
+  border-radius: 4px; /* Cantos arredondados */
+}
+
+/* Estilize os botões */
+button {
+  background-color: #c677e0; /* Cor de fundo do botão */
+  color: #fff; /* Cor do texto do botão */
+  padding: 0.5rem 1rem; /* Espaçamento interno */
+  border: none; /* Remova a borda */
+  border-radius: 4px; /* Cantos arredondados */
+  cursor: pointer; /* Mude o cursor ao passar o mouse */
+  transition: background-color 0.3s; /* Efeito de transição de cor ao passar o mouse */
+}
+
+button:hover {
+  background-color: #ff6f61; /* Cor de fundo do botão ao passar o mouse */
+}
+
+

@@ -25,13 +25,13 @@ RUN pip install poetry
 RUN pip install --upgrade pymongo
 
 # Copy the Pyproject.toml and poetry.lock files to the container
-COPY pyproject.toml poetry.lock /app/
+COPY pyproject.toml poetry.lock /api/
 
 # Install project dependencies using Poetry
 RUN poetry install
 
 # Copy your application code into the container
-COPY . /app/
+COPY . /api/
 
 # Expose the port that your application will listen on
 EXPOSE 8000
