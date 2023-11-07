@@ -5,7 +5,7 @@ import "./input.css";
 
 function App() {
   
-  const [tasks, setTasks] = useState([]);
+  const [setTasks] = useState([]);
 
   return (
     <div className="App">

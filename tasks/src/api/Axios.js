@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const URL_API = "http://localhost:8000";
+const URL_API = "localhost:8000";
 const bearerToken = "eusouanderson:CQ5mE4c0ZtR07sBB"; 
 
 export function GetTasks() {
-  const [tarefas, setTasks] = useState([]);
+  const [ setTasks ] = useState([]);
 
   useEffect(() => {
     axios
@@ -40,7 +40,7 @@ export function PostTasks() {
   const handleDeleteTask = (taskId) => {
     
     axios
-      .delete(`${URL_API}/api/${taskId}`, {
+      .delete(URL_API + "/api/", taskId, {
         headers: {
           Authorization: `Bearer ${bearerToken}`,
         },
